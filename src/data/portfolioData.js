@@ -15,6 +15,17 @@ export const personalInfo = {
 
 export const projects = [
   {
+    title: "To-Do App",
+    description: "A focused daily planner for organizing tasks, tracking progress, and keeping priorities visible in one clean workflow.",
+    summary: "A minimalist daily productivity planner.",
+    impact: "Helps users stay focused by turning priorities into a simple, actionable checklist.",
+    tags: ["React", "Vite", "Tailwind CSS", "Productivity"],
+    link: "https://to-do-six-taupe-71.vercel.app/",
+    category: "Frontend",
+    status: "Live",
+    accent: "#8b5cf6"
+  },
+  {
     title: "ReStyle",
     description: "A specialized marketplace designed for clothing designers to showcase and sell their custom-designed apparel.",
     summary: "A marketplace for independent clothing designers.",
