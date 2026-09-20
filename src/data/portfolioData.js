@@ -53,9 +53,9 @@ export const projects = [
     summary: "A backend service that validates game data through the Steam API.",
     impact: "Connects external API data to secure backend routes.",
     tags: ["Node.js", "Express", "MongoDB Atlas", "Steam API"],
-    link: "#",
+    link: "https://cheat-checker-brown.vercel.app/",
     category: "Backend",
-    status: "Private",
+    status: "Live",
     accent: "#34d399"
   },
   {
@@ -79,6 +79,17 @@ export const projects = [
     category: "Frontend",
     status: "Live",
     accent: "#fbbf24"
+  },
+  {
+    title: "Movies App",
+    description: "A movie browsing experience for exploring films through a focused, responsive interface.",
+    summary: "A responsive movie discovery interface.",
+    impact: "Makes browsing and discovering movies quick and accessible.",
+    tags: ["HTML", "CSS", "JavaScript", "Movies API"],
+    link: "https://dachi-s-movies-app.vercel.app/test.html",
+    category: "Frontend",
+    status: "Live",
+    accent: "#f97316"
   }
 ];
 
