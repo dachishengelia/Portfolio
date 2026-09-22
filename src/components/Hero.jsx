@@ -1,212 +1,82 @@
-import { useEffect, useRef, useState } from 'react';
-import { personalInfo, projects } from '../data/portfolioData';
-import ProjectPreview from './ProjectPreview';
-
-const featuredProjects = projects.slice(0, 3);
-const AUTO_SWITCH_MS = 6500;
+import { personalInfo, techStack } from '../data/portfolioData';
 
 export default function Hero({ isDark }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isSwitching, setIsSwitching] = useState(false);
-  const [direction, setDirection] = useState(1);
-  const switchTimeoutRef = useRef(null);
-  const autoSwitchTimeoutRef = useRef(null);
-  const activeIndexRef = useRef(0);
-
-  useEffect(() => {
-    activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
-
-  const scheduleAutoSwitch = () => {
-    if (autoSwitchTimeoutRef.current) {
-      window.clearTimeout(autoSwitchTimeoutRef.current);
-    }
-
-    autoSwitchTimeoutRef.current = window.setTimeout(() => {
-      const nextIndex = (activeIndexRef.current + 1) % featuredProjects.length;
-      switchProject(nextIndex);
-    }, AUTO_SWITCH_MS);
-  };
-
-  const switchProject = (nextIndex) => {
-    if (nextIndex === activeIndexRef.current) return;
-
-    setDirection(nextIndex > activeIndexRef.current ? 1 : -1);
-    setIsSwitching(true);
-    setActiveIndex(nextIndex);
-    activeIndexRef.current = nextIndex;
-
-    if (switchTimeoutRef.current) {
-      window.clearTimeout(switchTimeoutRef.current);
-    }
-
-    switchTimeoutRef.current = window.setTimeout(() => {
-      setIsSwitching(false);
-    }, 850);
-
-    scheduleAutoSwitch();
-  };
-
-  useEffect(() => {
-    scheduleAutoSwitch();
-
-    return () => {
-      if (autoSwitchTimeoutRef.current) {
-        window.clearTimeout(autoSwitchTimeoutRef.current);
-      }
-      if (switchTimeoutRef.current) {
-        window.clearTimeout(switchTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const activeProject = featuredProjects[activeIndex];
-
-  const goToProject = (index) => switchProject(index);
-  const goToPrevious = () => goToProject((activeIndex - 1 + featuredProjects.length) % featuredProjects.length);
-  const goToNext = () => goToProject((activeIndex + 1) % featuredProjects.length);
+  const featuredStack = techStack.slice(0, 6);
 
   return (
-    <section id="about" className={`relative flex min-h-[calc(100vh-5rem)] items-center px-6 py-20 ${isDark ? 'bg-stone-950' : 'bg-white'}`}>
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="max-w-3xl space-y-7 opacity-0 animate-[fadeUp_0.9s_ease-out_forwards]">
-          <p className={`text-xs font-medium uppercase tracking-[0.32em] ${isDark ? 'text-stone-400' : 'text-stone-500'}`}>
-            Hi there, I&apos;m
-          </p>
+    <section
+      id="about"
+      className={`relative flex min-h-[calc(100vh-5rem)] items-center overflow-hidden px-6 py-20 ${isDark ? 'bg-stone-950' : 'bg-stone-50'}`}
+    >
+      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="max-w-3xl animate-[fadeUp_0.9s_ease-out_forwards]">
+          <div className={`mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.28em] ${isDark ? 'text-stone-400' : 'text-stone-500'}`}>
+            <span>Full-stack developer</span>
+            <span className={`h-px w-10 ${isDark ? 'bg-stone-700' : 'bg-stone-300'}`} />
+            <span>{personalInfo.location}</span>
+          </div>
 
-          <h1 className={`text-5xl font-semibold leading-[0.95] tracking-[-0.06em] md:text-7xl ${isDark ? 'text-white' : 'text-stone-900'}`}>
-            {personalInfo.name}
+          <h1 className={`max-w-4xl text-[clamp(4rem,12vw,9.5rem)] font-semibold leading-[0.82] tracking-[-0.085em] ${isDark ? 'text-stone-100' : 'text-stone-900'}`}>
+            Dachi
+            <span className={`block ${isDark ? 'text-stone-500' : 'text-stone-400'}`}>Shengelia</span>
           </h1>
 
-          <p className={`max-w-2xl text-lg font-medium leading-snug md:text-2xl ${isDark ? 'text-stone-300' : 'text-stone-700'}`}>
-            {personalInfo.title}
-          </p>
+          <div className="mt-10 grid max-w-2xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
+            <p className={`max-w-lg text-base leading-8 md:text-lg ${isDark ? 'text-stone-300' : 'text-stone-600'}`}>
+              I love coding and gaming and stuff :)
+            </p>
 
-          <p className={`max-w-xl text-base leading-relaxed md:text-lg ${isDark ? 'text-stone-400' : 'text-stone-600'}`}>
-            {personalInfo.bio}
-          </p>
+            <div className={`text-[10px] font-semibold uppercase tracking-[0.24em] ${isDark ? 'text-stone-500' : 'text-stone-400'}`}>
+              <span className="block">Currently learning</span>
+              <span className={`mt-2 block ${isDark ? 'text-stone-200' : 'text-stone-700'}`}>Backend scaling</span>
+            </div>
+          </div>
 
-          <div className="flex flex-wrap gap-4 pt-2">
+          <div className="mt-10 flex flex-wrap gap-3">
             <a
               href="#projects"
               className={`rounded-full px-6 py-3 text-sm font-medium transition duration-200 hover:-translate-y-0.5 ${isDark ? 'bg-stone-100 text-stone-950 hover:bg-white' : 'bg-stone-900 text-white hover:bg-stone-800'}`}
             >
-              View Projects
+              View my work
             </a>
             <a
               href={`mailto:${personalInfo.email}`}
-              className={`rounded-full border px-6 py-3 text-sm font-medium transition duration-200 hover:-translate-y-0.5 ${isDark ? 'border-stone-700 bg-stone-900/70 text-stone-100 hover:border-stone-500' : 'border-stone-300 bg-white/80 text-stone-800 hover:border-stone-400'}`}
+              className={`rounded-full border px-6 py-3 text-sm font-medium transition duration-200 hover:-translate-y-0.5 ${isDark ? 'border-stone-700 text-stone-200 hover:border-stone-400' : 'border-stone-300 text-stone-700 hover:border-stone-500'}`}
             >
-              Get in Touch
+              Get in touch
             </a>
           </div>
         </div>
 
-        <div className="relative mx-auto flex w-full max-w-md items-center justify-center lg:justify-end">
-          <div className="relative h-[440px] w-full max-w-[420px]">
-            <div className={`project-stack-glow absolute inset-4 rounded-[2.4rem] border ${isDark ? 'border-stone-800/70 bg-stone-900/55' : 'border-stone-200 bg-stone-50/90'} rotate-[-15deg]`} />
-            <div className={`absolute inset-11 rounded-[2.2rem] border ${isDark ? 'border-stone-700/60 bg-stone-900/40' : 'border-stone-200 bg-stone-100/80'} rotate-[12deg]`} />
-
-            <div className="absolute inset-0 z-0">
-              <div
-                className={`absolute inset-3 rounded-[2rem] border border-dashed opacity-60 ${isDark ? 'border-stone-700 bg-stone-900/30' : 'border-stone-300 bg-stone-100/70'} rotate-[-9deg]`}
-              />
-              <div
-                className={`absolute inset-6 rounded-[2rem] border opacity-75 ${isDark ? 'border-stone-800 bg-stone-900/50' : 'border-stone-200 bg-white/80'} rotate-[10deg]`}
-              />
+        <div className="relative mx-auto w-full max-w-sm animate-[heroMarkReveal_1.1s_ease-out_forwards] lg:justify-self-end">
+          <div className={`relative aspect-square overflow-hidden border ${isDark ? 'border-stone-700 bg-stone-900/50' : 'border-stone-300 bg-white/70'}`}>
+            <div className={`absolute inset-5 border ${isDark ? 'border-stone-800' : 'border-stone-200'}`} />
+            <div className={`absolute left-8 top-8 text-[10px] font-semibold uppercase tracking-[0.3em] ${isDark ? 'text-stone-500' : 'text-stone-400'}`}>
+              DS / 01
             </div>
-
-            <div
-              key={`${activeProject.title}-${isDark}`}
-              style={{ '--project-direction': direction > 0 ? 1 : -1 }}
-              className={`project-card-shell ${isSwitching ? 'project-card-shell--switching' : ''} absolute inset-0 z-10 flex flex-col overflow-hidden rounded-[2rem] border p-4 shadow-[0_28px_70px_rgba(0,0,0,0.32)] ${isDark ? 'border-stone-800 bg-stone-900/90' : 'border-stone-200 bg-white/90'}`}
-            >
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <span className={`rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.22em] ${isDark ? 'border-stone-700 bg-stone-800/80 text-stone-300' : 'border-stone-200 bg-stone-100 text-stone-700'}`}>
-                  Featured project
-                </span>
-                <span className={`text-[10px] font-medium uppercase tracking-[0.24em] ${isDark ? 'text-stone-400' : 'text-stone-500'}`}>
-                  {activeProject.category}
-                </span>
-              </div>
-
-              <div className="mb-4 overflow-hidden rounded-[1.4rem] border border-stone-700/20">
-                <ProjectPreview link={activeProject.link} title={activeProject.title} isDark={isDark} />
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className={`text-2xl font-semibold ${isDark ? 'text-white' : 'text-stone-900'}`}>
-                    {activeProject.title}
-                  </h3>
-                </div>
-
-                <p className={`text-sm leading-relaxed ${isDark ? 'text-stone-300' : 'text-stone-600'}`}>
-                  {activeProject.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {activeProject.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className={`rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] ${isDark ? 'border-stone-700 bg-stone-800 text-stone-200' : 'border-stone-200 bg-stone-100 text-stone-700'}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className={`mt-5 flex items-center justify-between gap-3 border-t pt-4 text-xs uppercase tracking-[0.22em] ${isDark ? 'border-stone-700/60' : 'border-stone-200/80'}`}>
-                <div className="flex items-center gap-2">
-                  {featuredProjects.map((project, index) => (
-                    <button
-                      key={project.title}
-                      type="button"
-                      aria-label={`Show ${project.title}`}
-                      onClick={() => goToProject(index)}
-                      className={`h-2.5 rounded-full transition-all duration-300 ${index === activeIndex
-                        ? isDark ? 'w-8 bg-white' : 'w-8 bg-stone-900'
-                        : isDark ? 'w-2.5 bg-stone-700 hover:bg-stone-500' : 'w-2.5 bg-stone-300 hover:bg-stone-500'}`}
-                    />
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    aria-label="Previous project"
-                    onClick={goToPrevious}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full border text-lg leading-none transition duration-200 ${isDark ? 'border-stone-700 bg-stone-800 text-stone-200 hover:border-stone-500' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
-                  >
-                    ←
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next project"
-                    onClick={goToNext}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full border text-lg leading-none transition duration-200 ${isDark ? 'border-stone-700 bg-stone-800 text-stone-200 hover:border-stone-500' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
-                  >
-                    →
-                  </button>
-                </div>
-              </div>
+            <div className={`absolute bottom-8 right-8 text-[clamp(8rem,18vw,13rem)] font-semibold leading-none tracking-[-0.15em] ${isDark ? 'text-stone-800' : 'text-stone-200'}`}>
+              DS
             </div>
+            <div className={`absolute bottom-8 left-8 max-w-[140px] border-l-2 pl-3 text-[10px] font-semibold uppercase leading-5 tracking-[0.2em] ${isDark ? 'border-stone-600 text-stone-300' : 'border-stone-400 text-stone-600'}`}>
+              Software engineer in progress
+            </div>
+          </div>
+
+          <div className={`mt-5 flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.18em] ${isDark ? 'text-stone-500' : 'text-stone-400'}`}>
+            {featuredStack.map((technology) => <span key={technology}>{technology}</span>)}
           </div>
         </div>
 
-        <div className="mt-14 flex justify-start lg:col-span-2">
-          <a
-            href="#projects"
-            className={`group flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.3em] ${isDark ? 'text-stone-400 hover:text-stone-200' : 'text-stone-600 hover:text-stone-900'}`}
-            aria-label="Scroll down to projects"
-          >
-            <span>Scroll</span>
-            <span className={`flex h-8 w-5 items-center justify-center rounded-full border ${isDark ? 'border-stone-600' : 'border-stone-300'}`}>
-              <span className={`scroll-indicator h-2 w-2 rounded-full ${isDark ? 'bg-stone-100' : 'bg-stone-900'}`} />
-            </span>
-          </a>
-        </div>
+        <a
+          href="#projects"
+          className={`group mt-2 flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.3em] lg:col-span-2 ${isDark ? 'text-stone-500 hover:text-stone-200' : 'text-stone-500 hover:text-stone-900'}`}
+          aria-label="Scroll down to projects"
+        >
+          <span>Selected work</span>
+          <span className={`flex h-8 w-5 items-center justify-center rounded-full border ${isDark ? 'border-stone-700' : 'border-stone-300'}`}>
+            <span className={`scroll-indicator h-2 w-2 rounded-full ${isDark ? 'bg-stone-100' : 'bg-stone-900'}`} />
+          </span>
+        </a>
       </div>
     </section>
   );

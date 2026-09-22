@@ -81,6 +81,17 @@ export const projects = [
     accent: "#fbbf24"
   },
   {
+    title: "Wheel of Fortune",
+    description: "A playful prize-wheel game experience built for spinning, chance-based interactions, and a sleek interactive interface.",
+    summary: "An interactive prize-wheel game with engaging motion and rewards.",
+    impact: "Brings a game-like, high-energy experience to a simple and memorable web interaction.",
+    tags: ["React", "JavaScript", "Game UI", "Interactive Design"],
+    link: "https://the-wheel-of-fortune-five.vercel.app/",
+    category: "Frontend",
+    status: "Live",
+    accent: "#f59e0b"
+  },
+  {
     title: "Movies App",
     description: "A movie browsing experience for exploring films through a focused, responsive interface.",
     summary: "A responsive movie discovery interface.",
